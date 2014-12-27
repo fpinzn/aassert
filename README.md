@@ -1,6 +1,7 @@
 #aassert
 
-is a library for defensive programming through javascript ducktype checking. The idea is to check the  strictly minimum requirements of a given value.
+is a library for defensive programming through javascript ducktype checking. The idea is to check the  strictly minimum requirements for a value. It can be used as a boolean compliance checker (return true if the conditions are met and false otherwise) or in a more strict fashion throwing a type error if the conditions aren't met. The strict way allows chaining.
+
 __THIS IS A WORK IN PROGRESS__
 ##Installation
 ##Usage
