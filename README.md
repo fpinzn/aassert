@@ -70,6 +70,8 @@ and
 
 are valid type definitions that work as you'd expect.
 ##Work to be done
+- Import type definitions from json file.
+- Allow circular dependencies.
 - Support anonymous nested object definitions. Ex:
 
 
