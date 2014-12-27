@@ -7,7 +7,7 @@ __THIS IS A WORK IN PROGRESS__
 ##Usage
 
 ###Primitives (Out of the box types)
-The primitive types supported by aassert are: **number, boolean, string, array, object, function, undefined and null**
+The primitive types supported by aassert are: `number`, `boolean`, `string`, `array`, `object`, `function` and `undefined`. **null is treated as undefined**
 
 These primitives have the following shorthand names:
 
@@ -21,7 +21,7 @@ These primitives have the following shorthand names:
 
 To check if a value `value` is a of type number just call `aa.number(value)` if you are on the keystroke saving trend just call `aa.n(value)`. It will return the boolean value.
 
-__To throw an exception if the value is not of the required type__ call `AA.n(value)` and an `AAssertionNotMetException` with the type required and the actual type. TODO: provide better tracing of the origin of the error.
+__The strict calls `AA...` will throw an exception if the value is not of the required type__ call `AA.n(value)` and an `AAssertionNotMetException`. Another way that provides better error tracing is using an ad-hoc type.
 
 All calls to AA are chaineable, so you can perform `AA.n(myNumber).s(myString)...`, this is particulary useful when dealing with parameters.
 
@@ -64,10 +64,17 @@ You can also keep the type definitions in a JSON file, and import them as follow
 	aa.import(filePath);
 
 ###Ad-hoc types
-If there's a type that will only be used once, maybe defining a global type can be too much. For those cases the `aa.c(object, typeDescriptor)` and `AA.c(object, typeDescriptor)` methods are available. For example:
+If there's a type that will only be used once, maybe defining a global type is way too much. For those cases the `aa.c(object, typeDescriptor)` and `AA.c(object, typeDescriptor)` methods are available. For example:
 
- 	aa.c( {name: "name", nested: {name: "nested_name", superNested: {age:3}}}, {name:"string", nested:{name:"string", superNested: {age: "number"}}})
+ 	aa.c({name: "name",
+		nested: {name: "nested_name",
+			superNested: {age:3}}},
 
+		{name:"string",
+		nested:{name:"string",
+		superNested: {age: "number"}}})
+
+will return `true`.
 ###Circular dependencies
 aassert will allow circular dependencies as they are needed to support HATEOAS objects. Say for example:
 

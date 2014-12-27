@@ -1,0 +1,24 @@
+{
+	"car":{
+		"brand": "string",
+		"year": "number",
+		"value": "number",
+		"doors": "number"
+	},
+	"human":{
+		"name": "string",
+		"id": "number",
+		"nationality": "string",
+		"belongings": "array"
+	},
+	"pet":{
+		"type": "string",
+		"name": "string",
+		"breed": "string",
+		"owner": "human",
+		"tricks": "array"
+	},
+	"iceKing":{
+		"isLame": "boolean"
+	}
+}

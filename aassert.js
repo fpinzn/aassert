@@ -145,4 +145,24 @@ ad hoc types
 aa.c = function(theThing, typeDescriptor){
 	return aa.customCheck(typeDescriptor)(theThing);
 }
+
+/*
+json file loading
+*/
+aa.import = AA.import = function(jsonUrl, callback){
+	AA.s(jsonUrl);
+	var oReq = new XMLHttpRequest();
+
+	oReq.onload = function() {
+		var jsonObject = JSON.parse(this.responseText);
+		for(var key in jsonObject){
+			aa.define(key, jsonObject[key])
+		}
+		callback();
+	};
+
+	oReq.open("get", jsonUrl, true);
+	oReq.send();
+}
+
 })();

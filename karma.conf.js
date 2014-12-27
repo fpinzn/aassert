@@ -15,7 +15,10 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'aassert.js', 'specs.js'
+        'aassert.js', 'specs.js',
+    //fixtures
+        {pattern: '*.json', watched: true, served: true, included: false}
+
     ],
 
 

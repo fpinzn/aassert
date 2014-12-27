@@ -304,4 +304,30 @@ describe("custom type definitions (aa.define)", function(){
 			expect(aa.c({name: "name", nested: {age: "nested_name"}},{name:"string", nested:{age:"number"}})).toBe(false);
 		})
 	})
+
+	describe("it should be able to import json files", function(){
+		beforeEach(function(done){
+			aa.import("/base/dummy.json", function(){done()});
+		})
+		it("should create the types in the json file passed as a param", function(){
+			expect(aa.human).not.toBeUndefined();
+			expect(aa.car).not.toBeUndefined();
+			expect(aa.pet).not.toBeUndefined();
+			expect(aa.iceKing).not.toBeUndefined();
+		})
+		describe("validate correctly its types", function(){
+			it("with trivial data types", function(){
+				expect(aa.iceKing({isLame:true})).toBe(true);
+				expect(aa.iceKing({isLame:3})).toBe(false);
+			})
+			it("with nested types", function(){
+				expect(aa.pet({type: "dog", name: "otis", breed: "chanda", tricks: ["muerto"],
+					owner:{name:"pacho", id:3, nationality:"colombian", belongings: [1,2,3]}})).toBe(true);
+			})
+			it("with should fail when theres a nested type mismatch", function(){
+				expect(aa.pet({type: "dog", name: "otis", breed: "chanda", tricks: ["muerto"],
+					owner:{name:10, id:3, nationality:"colombian", belongings: [1,2,3]}})).toBe(false);
+			})
+		})
+	})
 })
