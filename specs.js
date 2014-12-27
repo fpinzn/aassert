@@ -28,7 +28,6 @@ describe("aa.number", function(){
 	it("should return true if a float is passed", function(){
 		expect(aa.number(4.3)).toEqual(true);
 	})
-
 	it("should allow n as a shorthand", function(){
 		expect(aa.n).toBe(aa.number);
 	})
@@ -153,6 +152,121 @@ describe("aa.undefined", function(){
 		expect(aa.undefined).toBe(aa.u);
 	})
 })
+});
 
+describe("AA primitives should be defined", function(){
+	it("AA.boolean and AA.b should exist and be the same", function(){
+		expect(AA.boolean).not.toBeUndefined();
+		expect(AA.boolean).toBe(AA.b);
+	})
+	it("AA.number and AA.n should exist and be the same", function(){
+		expect(AA.number).not.toBeUndefined();
+		expect(AA.number).toBe(AA.n);
+	})
+	it("AA.string and AA.s should exist and be the same", function(){
+		expect(AA.string).not.toBeUndefined();
+		expect(AA.string).toBe(AA.s);
+	})
+	it("AA.array and AA.a should exist and be the same", function(){
+		expect(AA.array).not.toBeUndefined();
+		expect(AA.array).toBe(AA.a);
+	})
+	it("AA.object and AA.o should exist and be the same", function(){
+		expect(AA.object).not.toBeUndefined();
+		expect(AA.object).toBe(AA.o);
+	})
+	it("AA.function and AA.f should exist and be the same", function(){
+		expect(AA.function).not.toBeUndefined();
+		expect(AA.function).toBe(AA.f);
+	})
+	it("AA.undefined and AA.u should exist and be the same", function(){
+		expect(AA.undefined).not.toBeUndefined();
+		expect(AA.undefined).toBe(AA.u);
+	})
+})
+describe("AA should throw errors when aa returns false", function(){
+	it("AA.n", function(){
+		expect(function(){AA.n("l")}).toThrow();
+	})
+	it("AA.s", function(){
+		expect(function(){AA.s(1)}).toThrow();
+	})
+	it("AA.b", function(){
+		expect(function(){AA.b("l")}).toThrow();
+	})
+	it("AA.a", function(){
+		expect(function(){AA.a("l")}).toThrow();
+	})
+	it("AA.o", function(){
+		expect(function(){AA.o("l")}).toThrow();
+	})
+	it("AA.f", function(){
+		expect(function(){AA.f("l")}).toThrow();
+	})
+	it("AA.u", function(){
+		expect(function(){AA.u("l")}).toThrow();
+	})
+})
 
+describe("custom type definitions (aa.define)", function(){
+	it("should throw an error when an empty type description is passed", function(){
+		var fail = function(){
+			aa.define("foo", {});
+		}
+		expect(fail).toThrow();
+	})
+	describe("single property descriptors", function(){
+		beforeEach(function(){
+			aa.define("foo", {id:"string"});
+		});
+		it("should create the verification method", function(){
+			expect(aa.foo).not.toBeUndefined();
+		})
+		it("should create the strict verification method", function(){
+			expect(AA.foo).not.toBeUndefined();
+		})
+		it("should work when the condition is met", function(){
+			expect(aa.foo({id:"lol"})).toBe(true);
+		})
+		it("should fail with an empty object", function(){
+			expect(aa.foo({})).toBe(false);
+		})
+		it("should fail when type mismatch", function(){
+			expect(aa.foo({id:2})).toBe(false);
+		})
+		it("should throw an error when using strict version", function(){
+			expect(function(){AA.foo({id:2})}).toThrow();
+		})
+		it("should allow chaining when using strict version", function(){
+			expect(function(){AA.s("l").foo({id:"lol"}).n(3)}).not.toThrow();
+		})
+	});
+
+	describe("multiple property descriptors", function(){
+		beforeEach(function(){
+			aa.define("foo", {id:"string", data: "object"});
+		});
+		it("should work when the condition is met", function(){
+			expect(aa.foo({id:"lol", data: {}})).toBe(true);
+		})
+		it("should not work when the condition is not met by type mismatch", function(){
+			expect(aa.foo({id:"lol", data: 3})).toBe(false);
+		})
+		it("should not work when the condition is not met by missing key", function(){
+			expect(aa.foo({ids:"lol", data: {}})).toBe(false);
+		})
+	})
+
+	describe("circular dependencies", function(){
+		beforeEach(function(){
+			aa.define("pet", {owner:"petOwner", name: "string"});
+			aa.define("petOwner", {pet:"pet", name: "string"});
+		});
+		it("should work when the condition is met", function(){
+			var pet = {name: "petName"};
+			var owner = {name: "petOwner", pet: pet};
+			pet.owner = owner;
+			expect(aa.pet(pet)).toBe(true);
+		})
+	})
 })

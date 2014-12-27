@@ -1,7 +1,7 @@
 #aassert
 
 is a library for defensive programming through javascript ducktype checking. The idea is to check the  strictly minimum requirements of a given value.
-
+__THIS IS A WORK IN PROGRESS__
 ##Installation
 ##Usage
 
@@ -20,7 +20,9 @@ These primitives have the following shorthand names:
 
 To check if a value `value` is a of type number just call `aa.number(value)` if you are on the keystroke saving trend just call `aa.n(value)`. It will return the boolean value.
 
-To throw an excpetion if the value is not of the required type call `AA.n(value)` and an `AAssertionNotMetException` with the type required and the acutal type. TODO: provide better tracing of the origin of the error.
+__To throw an exception if the value is not of the required type__ call `AA.n(value)` and an `AAssertionNotMetException` with the type required and the actual type. TODO: provide better tracing of the origin of the error.
+
+All calls to AA are chaineable, so you can perform `AA.n(myNumber).s(myString)...`, this is particulary useful when dealing with parameters.
 
 ##Custom types
 
@@ -67,3 +69,25 @@ and
 	}
 
 are valid type definitions that work as you'd expect.
+##Work to be done
+- Support anonymous nested object definitions. Ex:
+
+
+	class: {
+		teacher: {
+			id: "number",
+			name: "string"
+		}
+		id: "number"
+	}
+
+Currently it works like this:
+
+	class:{
+		teacher: "teacher",
+		id: "number"
+	}
+	teacher: {
+		id: "number",
+		name: "string"
+	}
