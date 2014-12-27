@@ -38,7 +38,7 @@ To define your own types using the primitives as building blocks simply use de `
 from there you can simply:
 `aa.dog(myDog)` or `AA.dog(myDog)``.
 
-Of course you can nest type definitions:
+Of course you can reuse type definitions in toher types:
 
 	aa.define( "petOwner", {
 		pet: "dog",
@@ -48,12 +48,27 @@ Of course you can nest type definitions:
 
 And, as expected if pet is not a complying dog `aa.petOwner(petOwner)` will return false and `AA.petOwner(petOwner)` will throw the usual exception.
 
+Or create nested types:
+
+	class: {
+		teacher: {
+			id: "number",
+			name: "string"
+		}
+		id: "number"
+	}
+
 You can also keep the type definitions in a JSON file, and import them as follows:
 
 	aa.import(filePath);
 
+###Ad-hoc types
+If there's a type that will only be used once, maybe defining a global type can be too much. For those cases the `aa.c(object, typeDescriptor)` and `AA.c(object, typeDescriptor)` methods are available. For example:
+
+ 	aa.c( {name: "name", nested: {name: "nested_name", superNested: {age:3}}}, {name:"string", nested:{name:"string", superNested: {age: "number"}}})
+
 ###Circular dependencies
-aassert allows circular dependencies. Say for example:
+aassert will allow circular dependencies as they are needed to support HATEOAS objects. Say for example:
 
 	dog: {
 		...
@@ -68,22 +83,12 @@ and
 		...
 	}
 
-are valid type definitions that work as you'd expect.
+are valid type definitions that won't fail.
 ##Work to be done
 - Import type definitions from json file.
-- Allow circular dependencies.
-- Support anonymous nested object definitions. Ex:
+- Reverse the definition order: create `aa` methods from the `AA` ones, so the error information is not discarded.
+- Allow circular dependencies. It should work like this:
 
-
-	class: {
-		teacher: {
-			id: "number",
-			name: "string"
-		}
-		id: "number"
-	}
-
-Currently it works like this:
 
 	class:{
 		teacher: "teacher",

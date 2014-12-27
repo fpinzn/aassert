@@ -121,12 +121,28 @@ aa.define= function(typeName,typeDescription){
 	}
 }
 aa.customCheck = function(typeDescriptor){
+	AA.o(typeDescriptor);
 	return function(object){
+		AA.o(object);
 		for(var key in typeDescriptor){
-			if(!aa[typeDescriptor[key]](object[key])) return false;
+			var type = typeDescriptor[key], value = object[key];
+			//If the type is an object go recursive.
+			if(aa.o(type)){
+				if(!aa.customCheck(type)(value)) return false;
+			}
+			else{
+				AA.s(type);
+				if (!aa[type](value)) return false;
+			}
 		}
 		return true;
 	}
 }
 
+/*
+ad hoc types
+*/
+aa.c = function(theThing, typeDescriptor){
+	return aa.customCheck(typeDescriptor)(theThing);
+}
 })();

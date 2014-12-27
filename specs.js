@@ -257,8 +257,9 @@ describe("custom type definitions (aa.define)", function(){
 		})
 	})
 
-	describe("circular dependencies", function(){
+	xdescribe("circular dependencies", function(){
 		beforeEach(function(){
+
 			aa.define("pet", {owner:"petOwner", name: "string"});
 			aa.define("petOwner", {pet:"pet", name: "string"});
 		});
@@ -267,6 +268,40 @@ describe("custom type definitions (aa.define)", function(){
 			var owner = {name: "petOwner", pet: pet};
 			pet.owner = owner;
 			expect(aa.pet(pet)).toBe(true);
+		})
+	})
+
+	describe("ad hoc types", function(){
+		it("should fail if the condition is not met", function(){
+			expect(aa.c({name: "name", age: "lol"}, {name: "string", age: "number"})).toBe(false);
+		})
+		it("should succed if the condition is met", function(){
+			expect(aa.c({name: "name", age: 4}, {name: "string", age: "number"})).toBe(true);
+		})
+		it("should work with defined nested objects", function(){
+			expect(aa.c({name: "name", nested: {name: "nested_name"}},{name:"string", nested:{name:"string"}})).toBe(true);
+		})
+		it("should work with deep nested objects", function(){
+			expect(aa.c({name: "name",
+			nested: {name: "nested_name",
+			superNested: {age:3}}},
+			{name:"string",
+			nested:{name:"string",
+			superNested: {age: "number"}}})).toBe(true);
+		})
+		it("should fail with deep nested objects if theres a type mismatch", function(){
+			expect(aa.c({name: "name",
+			nested: {name: "nested_name",
+			superNested: {age:[3]}}},
+			{name:"string",
+			nested:{name:"string",
+			superNested: {age: "number"}}})).toBe(false);
+		})
+		it("should work with generic nested objects", function(){
+			expect(aa.c({name: "name", nested: {name: "nested_name"}},{name:"string", nested:"object"})).toBe(true);
+		})
+		it("should fail if the nested object type mismatches", function(){
+			expect(aa.c({name: "name", nested: {age: "nested_name"}},{name:"string", nested:{age:"number"}})).toBe(false);
 		})
 	})
 })
