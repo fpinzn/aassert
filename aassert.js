@@ -76,7 +76,7 @@ void function createPrimitiveShorthandsAndStrictVersions(){
 	for(var key in shorthands){
 		var name = shorthands[key];
 		//assign strict version
-		AA[name] = createStrictVersion(name);
+		AA[name] = createStrictVersion(name,aa[name]);
 		//assign the shorthand for aa
 		aa[key]=aa[name];
 		//assign the shorthand for AA
@@ -93,11 +93,11 @@ function CustomError(name, message){
 }
 
 
-function createStrictVersion(type){
-	if(!aa.function(aa[type])) throw new CustomError("AAssertionNotDefined", "aa."+type+ " is not a function.");
+function createStrictVersion(name, checker){
+	if(!aa.function(checker)) throw new CustomError("AAssertionNotDefined", name+ " is not a function.");
 	return function(theThing){
-		if(!aa[type](theThing)){
-			throw new CustomError("AAssertionNotMetException", "Type checking for "+type+ " not met");
+		if(!checker(theThing)){
+			throw new CustomError("AAssertionNotMetException", "Type checking for "+name+ " not met");
 		}
 		else{
 			return AA;
@@ -117,7 +117,7 @@ aa.define= function(typeName,typeDescription){
 	}
 	else{
 		aa[typeName] = aa.customCheck(typeDescription);
-		AA[typeName] = createStrictVersion(typeName);
+		AA[typeName] = createStrictVersion(typeName, aa[typeName]);
 	}
 }
 aa.customCheck = function(typeDescriptor){
@@ -146,6 +146,10 @@ aa.c = function(theThing, typeDescriptor){
 	return aa.customCheck(typeDescriptor)(theThing);
 }
 
+AA.c = function(theThing, typeDescriptor){
+	return createStrictVersion("ad-hoc type", function(object){aa.c(object, typeDescriptor)});
+}
+
 /*
 json file loading
 */
@@ -158,7 +162,7 @@ aa.import = AA.import = function(jsonUrl, callback){
 		for(var key in jsonObject){
 			aa.define(key, jsonObject[key])
 		}
-		callback();
+		if(!aa.u(callback)) callback();
 	};
 
 	oReq.open("get", jsonUrl, true);

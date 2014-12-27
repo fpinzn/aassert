@@ -303,11 +303,20 @@ describe("custom type definitions (aa.define)", function(){
 		it("should fail if the nested object type mismatches", function(){
 			expect(aa.c({name: "name", nested: {age: "nested_name"}},{name:"string", nested:{age:"number"}})).toBe(false);
 		})
+		it("should work the strict version", function(){
+			expect(function(){AA.c({name: "name"},{name:"string"})}).not.toThrow();
+		})
+		it("should throw an exception when the strict version is used and theres a type mismatch", function(){
+			expect(function(){AA.c({name: 12},{name:"string"})}).not.toThrow();
+		})
 	})
 
 	describe("it should be able to import json files", function(){
 		beforeEach(function(done){
 			aa.import("/base/dummy.json", function(){done()});
+		})
+		it("should not throw an exception when there's no callback", function(){
+			expect(function(){aa.import("/base/dummy.json")}).not.toThrow();
 		})
 		it("should create the types in the json file passed as a param", function(){
 			expect(aa.human).not.toBeUndefined();

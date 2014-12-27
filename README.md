@@ -39,7 +39,7 @@ To define your own types using the primitives as building blocks simply use de `
 from there you can simply:
 `aa.dog(myDog)` or `AA.dog(myDog)``.
 
-Of course you can reuse type definitions in toher types:
+Of course you can reuse type definitions in other types:
 
 	aa.define( "petOwner", {
 		pet: "dog",
@@ -61,7 +61,7 @@ Or create nested types:
 
 You can also keep the type definitions in a JSON file, and import them as follows:
 
-	aa.import(filePath);
+	aa.import(filePath, callback);
 
 ###Ad-hoc types
 If there's a type that will only be used once, maybe defining a global type is way too much. For those cases the `aa.c(object, typeDescriptor)` and `AA.c(object, typeDescriptor)` methods are available. For example:
@@ -75,8 +75,8 @@ If there's a type that will only be used once, maybe defining a global type is w
 		superNested: {age: "number"}}})
 
 will return `true`.
-###Circular dependencies
-aassert will allow circular dependencies as they are needed to support HATEOAS objects. Say for example:
+###Circular dependencies(Not yet implemented)
+aassert will allow circular dependencies. Say for example:
 
 	dog: {
 		...
@@ -93,7 +93,6 @@ and
 
 are valid type definitions that won't fail.
 ##Work to be done
-- Import type definitions from json file.
 - Reverse the definition order: create `aa` methods from the `AA` ones, so the error information is not discarded.
 - Allow circular dependencies. It should work like this:
 
