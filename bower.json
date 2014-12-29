@@ -21,10 +21,10 @@
     "bower_components",
     "test",
     "tests",
-    "./README.md",
-    "./specs.js",
-    "./LICENSE",
-    "./karma.conf.js",
-    "./dummy.json"
+    "README.md",
+    "specs.js",
+    "LICENSE",
+    "karma.conf.js",
+    "dummy.json"
   ]
 }
