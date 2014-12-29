@@ -13,7 +13,7 @@ for Node.js, with backwards-compatibility for the old require() API.
 */
 if (typeof exports !== 'undefined') {
 	if (typeof module !== 'undefined' && module.exports) {
-		exports = module.exports;
+		exports = module.exports={AA:AA,aa:aa};
 	}
 	exports.aa = aa;
 	exports.AA = AA;
