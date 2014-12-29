@@ -23,7 +23,7 @@ if (typeof exports !== 'undefined') {
 	root.AA = AA;
 }
 
-AA.VERSION = aa.VERSION = '0.0.1';
+AA.VERSION = aa.VERSION = '0.1.0';
 
 /*
 Primitives
