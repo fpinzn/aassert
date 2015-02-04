@@ -21,7 +21,7 @@ if (typeof exports !== 'undefined') {
 	root.aa = aa;
 }
 
-aa.VERSION = '0.2.0';
+aa.VERSION = '0.2.2';
 
 aa.__createMessage = function(object, message){
 	return JSON.stringify(object)+" "+message;
@@ -187,7 +187,6 @@ aa.__customCheck = function(typeName, typeDescriptor){
 			//If the type is an object go recursive.
 			if(aa.B.o(type)){
 
-				debugger;
 				var result = aa.__customCheck(key,type)(value);
 				if(!aa.__resultTypeToBoolean(result)){
 					resultObject[key]=result;
