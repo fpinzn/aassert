@@ -1,6 +1,6 @@
 #aassert
 
-__V: 0.2.0__
+__V: 0.2.3__
 
 is a library for defensive programming through javascript ducktype checking. The idea is to check the strictly minimum requirements for a set of values. It can be used as:
 

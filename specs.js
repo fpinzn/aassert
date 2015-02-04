@@ -242,7 +242,6 @@ describe("aa.E should", function(){
 		expect(function(){aa.E.u("l")}).toThrow();
 	})
 	it("should allow nested calls", function(){
-		console.log("test", aa.B.b(true));
 		expect(aa.E.b(true)).toBe(aa.E);
 	})
 })

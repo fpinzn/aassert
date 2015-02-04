@@ -21,7 +21,7 @@ if (typeof exports !== 'undefined') {
 	root.aa = aa;
 }
 
-aa.VERSION = '0.2.2';
+aa.VERSION = '0.2.3';
 
 aa.__createMessage = function(object, message){
 	return JSON.stringify(object)+" "+message;
@@ -201,11 +201,6 @@ aa.__customCheck = function(typeName, typeDescriptor){
 			}
 		}
 
-		console.log("name", typeName);
-		console.log("descriptor", typeDescriptor);
-		console.log("object", object);
-		console.log("result", resultObject);
-		console.log("");
 		return resultObject;
 	}
 }
