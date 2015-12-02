@@ -107,23 +107,26 @@ If there's a type that will only be used once, maybe defining a global type is w
 		superNested: {age: "number"}}})
 
 		//will return true.
+```
 
-```js
 ###Circular dependencies(Not yet implemented)
 aassert will allow circular dependencies. Say for example:
 
-	dog: {
-		...
-		owner: "petOwner"
-		...
-	}
+```js
+dog: {
+	...
+	owner: "petOwner"
+	...
+}
+```
 and
-
-	petOwner:{
-		...
-		pet: "dog"
-		...
-	}
+```js
+petOwner:{
+	...
+	pet: "dog"
+	...
+}
+```
 
 are valid type definitions that won't fail.
 
@@ -132,16 +135,16 @@ are valid type definitions that won't fail.
 
 - Allow circular dependencies. It should work like this:
 
-
-	class:{
-		teacher: "teacher",
-		id: "number"
-	}
-	teacher: {
-		id: "number",
-		name: "string"
-	}
-
+```js
+class:{
+	teacher: "teacher",
+	id: "number"
+}
+teacher: {
+	id: "number",
+	name: "string"
+}
+```
 ##Changelog
 
 __0.2.0:__
